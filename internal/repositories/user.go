@@ -70,4 +70,13 @@ func GetAllUsers() []models.User {
 	return Users
 }
 
-
+// удаление пользователя по ID
+func DeleteUser(id int) bool {
+	for i := range Users {
+		if Users[i].ID == id {
+			Users = append(Users[:i], Users[i+1:]...)
+			return true
+		}
+	}
+	return false
+}

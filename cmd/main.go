@@ -16,6 +16,7 @@ func main() {
 		fmt.Println("3. Поиск по id")
 		fmt.Println("4. ​Вывести всех пользователей")
 		fmt.Println("5. Обновление данных")
+		fmt.Println("6. Удалить пользователя")
 
 		var action int
 		fmt.Scan(&action)
@@ -99,6 +100,19 @@ func main() {
 				fmt.Println("Данного пользователя не удалось обновить")
 			} else {
 				fmt.Println("Пользовтель успешно обновлен")
+			}
+
+		case 6:
+			var id int
+			fmt.Println("Введите ID")
+			fmt.Scan(&id)
+
+			ok := repositories.DeleteUser(id)
+
+			if ok == false {
+				fmt.Printf("Такого пользователя с id: %d не существует", id)
+			} else {
+				fmt.Println("Пользователь успешно удален")
 			}
 
 		default:
