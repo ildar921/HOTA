@@ -11,20 +11,9 @@ import (
 func main() {
 
 	for {
-		fmt.Println("​-----------------------------------------")
 		fmt.Println()
-		fmt.Println("Введите действие:")
-		fmt.Println("1. Добавить пользователя")
-		fmt.Println("2. Поиск по нику")
-		fmt.Println("3. Поиск по id")
-		fmt.Println("4. Поиск по стеку")
-		fmt.Println("5. ​Вывести всех пользователей")
-		fmt.Println("6. Обновление данных")
-		fmt.Println("7. Удалить пользователя")
-		fmt.Println("8. Статистика")
-		fmt.Println()
-		fmt.Println("​-----------------------------------------")
-
+		models.PrintMeny()
+        fmt.Println()
 		var action int
 		fmt.Scan(&action)
 		fmt.Println()
@@ -42,10 +31,18 @@ func main() {
 			var stack string
 			fmt.Print("Стек (через запятую): ")
 			fmt.Scan(&stack)
-
 			user.Staсk = strings.Split(stack, ",")
 
+			fmt.Print("GitHub: ")
+			fmt.Scan(&user.GitHub)
+
+			fmt.Print("Telegram: ")
+			fmt.Scan(&user.Telegram)
+
+			fmt.Print("Статус: ")
+			fmt.Scan(&user.Status)
 			repositories.AppendUser(user)
+
 			fmt.Println("Пользователь создан")
 			fmt.Println()
 		case 2: // Поиск по нику
@@ -58,7 +55,7 @@ func main() {
 				fmt.Println("Такого пользователя не существует")
 				continue
 			}
-			fmt.Println(*user)
+			models.PrintUser(*user)
 
 		case 3: // Поиск по ID
 
@@ -72,7 +69,8 @@ func main() {
 				fmt.Printf("Такого пользователя с id: %d не существует", id)
 				continue
 			}
-			fmt.Println(*user)
+			models.PrintUser(*user)
+
 		case 4: // Поиск по стеку
 			var stack string
 			fmt.Println("Введите стек: ")
@@ -92,7 +90,7 @@ func main() {
 			users := repositories.GetAllUsers()
 			for _, user := range users {
 				// strings.Join(user.Staсk, ",") //Преобразовываем из слайса в строку
-				fmt.Printf("ID: %d,\nНик: %s,\nРоль: %s,\nСтек: %s\n", user.ID, user.Nickname, user.Role, strings.Join(user.Staсk, ","))
+				fmt.Printf("ID: %d,\nНик: %s,\nРоль: %s,\nСтек: %s, \nГитхаб: %s, \nTG: %s, \nСтатус: %s", user.ID, user.Nickname, user.Role, strings.Join(user.Staсk, ","), user.GitHub, user.Telegram, user.Status)
 			}
 
 		case 6: // Обновление данных
@@ -116,8 +114,23 @@ func main() {
 			fmt.Printf("Введите новую роль [%s]\n", user.Role)
 			fmt.Scan(&rol)
 
+			var gh string
+			fmt.Printf("Введите GitHub [%s]\n", user.GitHub)
+			fmt.Scan(&gh)
+
+			var tg string
+			fmt.Printf("Введите Telegram [%s]\n", user.Telegram)
+			fmt.Scan(&tg)
+
+			var stats string
+			fmt.Printf("Введите Telegram [%s]\n", user.Status)
+			fmt.Scan(&stats)
+
 			user.Nickname = nik
 			user.Role = rol
+			user.GitHub = gh
+			user.Telegram = tg
+			user.Status = stats
 
 			ok := repositories.UpdateUser(*user)
 

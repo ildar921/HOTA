@@ -84,18 +84,18 @@ func DeleteUser(id int) bool {
 }
 
 // статистика (количество пользователей всего)
-func CountUser() int{
-   return len(Users)
+func CountUser() int {
+	return len(Users)
 }
 
 // статистика (количество пользователей по ролям)
 func CountByRole() map[string]int {
-    rezult := make(map[string]int)  //Backend: 2  Frontend: 1
+	rezult := make(map[string]int) //Backend: 2  Frontend: 1
 
 	for _, user := range Users {
-      rezult[user.Role]++
-	   
+		rezult[user.Role]++
+
 	}
-	
-return rezult
+
+	return rezult
 }
