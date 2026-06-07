@@ -1,7 +1,8 @@
 package main
 
 import (
-	"HOTA/internal/models"
+	"HOTA/internal/handlers"
+	"HOTA/internal/printer"
 	"HOTA/internal/repositories"
 	"fmt"
 
@@ -12,36 +13,16 @@ func main() {
 
 	for {
 		fmt.Println()
-		models.PrintMeny()
-        fmt.Println()
+		printer.PrintMeny()
+		fmt.Println()
+
 		var action int
 		fmt.Scan(&action)
 		fmt.Println()
 
 		switch action {
 		case 1: // Добавить пользователя
-			user := models.User{}
-
-			fmt.Print("Ник: ")
-			fmt.Scan(&user.Nickname)
-
-			fmt.Print("Роль: ")
-			fmt.Scan(&user.Role)
-
-			var stack string
-			fmt.Print("Стек (через запятую): ")
-			fmt.Scan(&stack)
-			user.Staсk = strings.Split(stack, ",")
-
-			fmt.Print("GitHub: ")
-			fmt.Scan(&user.GitHub)
-
-			fmt.Print("Telegram: ")
-			fmt.Scan(&user.Telegram)
-
-			fmt.Print("Статус: ")
-			fmt.Scan(&user.Status)
-			repositories.AppendUser(user)
+			handlers.CreateUser()
 
 			fmt.Println("Пользователь создан")
 			fmt.Println()
@@ -55,7 +36,7 @@ func main() {
 				fmt.Println("Такого пользователя не существует")
 				continue
 			}
-			models.PrintUser(*user)
+			printer.PrintUser(*user)
 
 		case 3: // Поиск по ID
 
@@ -69,7 +50,7 @@ func main() {
 				fmt.Printf("Такого пользователя с id: %d не существует", id)
 				continue
 			}
-			models.PrintUser(*user)
+			printer.PrintUser(*user)
 
 		case 4: // Поиск по стеку
 			var stack string
@@ -94,52 +75,13 @@ func main() {
 			}
 
 		case 6: // Обновление данных
-
-			var id int
-			fmt.Println("Введите ID")
-			fmt.Scan(&id)
-
-			user := repositories.SersheID(id)
-			if user == nil {
-				fmt.Printf("Такого пользователя с id: %d не существует", id)
+			err := handlers.UpdateUser()
+			if err != nil {
+				fmt.Println(err.Error())
 				continue
 			}
-			// РЕДАКТИРОВАНИЯ ПОЛЬЗОВАТЕЛЯ
 
-			var nik string
-			fmt.Printf("Введите имя [%s]\n", user.Nickname)
-			fmt.Scan(&nik)
-
-			var rol string
-			fmt.Printf("Введите новую роль [%s]\n", user.Role)
-			fmt.Scan(&rol)
-
-			var gh string
-			fmt.Printf("Введите GitHub [%s]\n", user.GitHub)
-			fmt.Scan(&gh)
-
-			var tg string
-			fmt.Printf("Введите Telegram [%s]\n", user.Telegram)
-			fmt.Scan(&tg)
-
-			var stats string
-			fmt.Printf("Введите Telegram [%s]\n", user.Status)
-			fmt.Scan(&stats)
-
-			user.Nickname = nik
-			user.Role = rol
-			user.GitHub = gh
-			user.Telegram = tg
-			user.Status = stats
-
-			ok := repositories.UpdateUser(*user)
-
-			if ok == false {
-				fmt.Println("Данного пользователя не удалось обновить")
-			} else {
-				fmt.Println("Пользовтель успешно обновлен")
-			}
-
+			fmt.Println("Пользователь успешно обновлен")
 		case 7: // Удаление пользователя
 			var id int
 			fmt.Println("Введите ID")
