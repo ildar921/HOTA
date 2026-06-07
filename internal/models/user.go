@@ -3,7 +3,7 @@ package models
 // Стуктура нашего пользователя
 type User struct {
 	ID       int
-	Nickname string
+	Nickname string `json:"nickname" `
 	Role     string
 	Staсk    []string
 	GitHub   string //ссылка гитхаб

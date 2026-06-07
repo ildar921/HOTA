@@ -25,9 +25,9 @@ func PrintMeny() {
 // PrintUser - вывод информацию о пользователе в терминал
 func PrintUser(user models.User) {
 	fmt.Println("​-----------------------------------------")
-	fmt.Printf(" ID: %d\n", user.ID)
-	fmt.Printf(" Ник: %s\n", user.Nickname)
-	fmt.Printf(" Роль: %s\n", user.Role)
+	fmt.Printf("ID: %d\n", user.ID)
+	fmt.Printf("Ник: %s\n", user.Nickname)
+	fmt.Printf("Роль: %s\n", user.Role)
 
 	fmt.Println("Стек:")
 	for _, stek := range user.Staсk {
